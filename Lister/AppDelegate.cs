@@ -35,6 +35,8 @@ namespace Lister
 			Console.WriteLine (IntPtr.Size);
 			Console.WriteLine ("FinishedLaunching");
 
+			ServiceLocator.ListService = new ListService ();
+
 			var splitViewController = (UISplitViewController)Window.RootViewController;
 			splitViewController.PreferredDisplayMode = UISplitViewControllerDisplayMode.AllVisible;
 			splitViewController.WeakDelegate = this;

@@ -25,12 +25,14 @@ namespace Lister
 		readonly NSString ListDocumentCellIdentifier = new NSString("listDocumentCell");
 
 		NSObject sizeChangedToken, updateToken;
-		List list;
+		IList<List> listCollection;
+
+		readonly ListService listService;
 
 		public DocumentsViewController(IntPtr handle)
 			: base(handle)
 		{
-
+			listService = ServiceLocator.ListService;
 		}
 
 		public override void ViewDidLoad ()
@@ -47,6 +49,8 @@ namespace Lister
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
+
+			listCollection = listService.FetchLists ();
 
 			SetupTextAttributes ();
 
@@ -104,27 +108,25 @@ namespace Lister
 
 		public override nint RowsInSection (UITableView tableview, nint section)
 		{
-			return 0;
-			return list.Count;
+			return listCollection.Count;
 		}
 
 		public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
 		{
-//			List listInfo = list [indexPath.Row];
+			List list = listCollection [indexPath.Row];
 			ListCell cell = (ListCell)tableView.DequeueReusableCell(ListDocumentCellIdentifier, indexPath);
 
-			Configure (cell, null);
-
+			Configure (cell, list);
 			return cell;
 		}
 
-		async void Configure(ListCell cell, List list)
+		void Configure(ListCell cell, List list)
 		{
 			// Show an empty string as the text since it may need to load.
 			cell.Label.Text = string.Empty;
 			cell.Label.Font = UIFont.PreferredBody;
 			cell.ListColorView.BackgroundColor = UIColor.Clear;
-			cell.BackgroundColor = UIColor.Cyan;
+			cell.BackgroundColor = UIColor.Clear;
 
 			cell.Label.Text = list.Name;
 			cell.ListColorView.BackgroundColor = AppColors.ColorFrom (list.Color);

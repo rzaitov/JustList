@@ -50,6 +50,8 @@
     <Compile Include="ListItem.cs" />
     <Compile Include="ListOperationInfo.cs" />
     <Compile Include="Utils\ComparisionComparer.cs" />
+    <Compile Include="ServiceLocator.cs" />
+    <Compile Include="ListService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
