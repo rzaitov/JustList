@@ -37,6 +37,7 @@ namespace Lister
 				CreateTextArrtibutes ();
 			}
 		}
+		ListVisualManager manager;
 		IList<ListItem> items;
 		readonly ListService listService;
 
@@ -88,6 +89,7 @@ namespace Lister
 		{
 			base.ViewWillAppear (animated);
 			items = listService.FetchItems (List.Id);
+			manager = new ListVisualManager (items);
 		}
 
 		public override void ViewWillDisappear (bool animated)
@@ -184,7 +186,7 @@ namespace Lister
 				return;
 
 			ListItem item = items[indexPath.Row - 1];
-			list.RemoveItems (new ListItem[]{ item });
+			manager.RemoveItems (new ListItem[]{ item });
 
 			TableView.DeleteRows (new NSIndexPath[]{ indexPath }, UITableViewRowAnimation.Automatic);
 		}
@@ -192,7 +194,7 @@ namespace Lister
 		public override void MoveRow (UITableView tableView, NSIndexPath sourceIndexPath, NSIndexPath destinationIndexPath)
 		{
 			ListItem item = items[sourceIndexPath.Row - 1];
-			list.MoveItem (item, destinationIndexPath.Row - 1);
+			manager.MoveItem (item, destinationIndexPath.Row - 1);
 		}
 
 		#endregion
@@ -217,15 +219,15 @@ namespace Lister
 
 			int row;
 			if (proposedIndexPath.Row == 0) {
-				row = item.IsComplete ? list.IndexOfFirstCompletedItem() + 1 : 1;
+				row = item.IsComplete ? manager.IndexOfFirstCompletedItem() + 1 : 1;
 				return NSIndexPath.FromRowSection (row, 0);
-			} else if (list.CanMoveItem(item, proposedIndexPath.Row - 1, false)) {
+			} else if (manager.CanMoveItem(item, proposedIndexPath.Row - 1, false)) {
 				return proposedIndexPath;
 			} else if (item.IsComplete) {
-				row = list.IndexOfFirstCompletedItem () + 1;
+				row = manager.IndexOfFirstCompletedItem () + 1;
 				return NSIndexPath.FromRowSection (row, 0);
 			} else {
-				row = list.IndexOfFirstCompletedItem ();
+				row = manager.IndexOfFirstCompletedItem ();
 				return NSIndexPath.FromRowSection (row, 0);
 			}
 		}
@@ -250,7 +252,7 @@ namespace Lister
 			} else if (textField.Text.Length > 0) {
 				// Adds the item to the top of the list.
 				ListItem item = new ListItem (textField.Text);
-				int insertedIndex = list.InsertItem (item);
+				int insertedIndex = manager.InsertItem (item);
 
 				// Update the edit row to show the check box.
 				ListItemCell itemCell = (ListItemCell)TableView.CellAt (indexPath);
@@ -319,9 +321,9 @@ namespace Lister
 		{
 			NSIndexPath indexPath = IndexPathForView (sender);
 
-			if (indexPath.Row >= 1 && indexPath.Row <= list.Count) {
+			if (indexPath.Row >= 1 && indexPath.Row <= items.Count) {
 				ListItem item = items[indexPath.Row - 1];
-				ListOperationInfo info = list.ToggleItem (item, -1);
+				ListOperationInfo info = manager.ToggleItem (item, -1);
 
 				if (info.FromIndex == info.ToIndex) {
 					TableView.ReloadRows(new NSIndexPath[] { indexPath }, UITableViewRowAnimation.Automatic);
