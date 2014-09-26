@@ -82,7 +82,7 @@ namespace Lister
 			UISplitViewController splitViewController = SplitViewController;
 
 			Action<ListViewController> ConfigureListViewController = listViewController => {
-//				listViewController.ConfigureWith(listInfo);
+				listViewController.List = list;
 				listViewController.MasterController = this;
 			};
 
@@ -138,9 +138,8 @@ namespace Lister
 
 		public override void RowSelected (UITableView tableView, NSIndexPath indexPath)
 		{
-			throw new NotImplementedException ();
-//			ListInfo listInfo = list[indexPath.Row];
-//			SelectListWithListInfo (listInfo);
+			List list = listCollection[indexPath.Row];
+			SelectListWithListInfo (list);
 		}
 
 		public override bool CanEditRow (UITableView tableView, NSIndexPath indexPath)

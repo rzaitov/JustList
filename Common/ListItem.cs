@@ -15,6 +15,9 @@ namespace Common
 		public bool IsComplete { get; set; }
 		public Guid UID { get; private set; }
 
+		public ListItem()
+		{}
+
 		public ListItem (string text, bool isComplete, Guid uid)
 		{
 			Text = text;

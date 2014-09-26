@@ -13,6 +13,8 @@ namespace Common
 		const string ListEncodingItemsKey = "items";
 		const string ListEncodingColorKey = "color";
 
+		public Guid Id { get; set; }
+
 		List<ListItem> items;
 		public ListColor Color { get; set; }
 		public string Name { get; set; }
@@ -26,12 +28,6 @@ namespace Common
 		public int Count {
 			get {
 				return items.Count;
-			}
-		}
-
-		public ListItem this[int index] {
-			get {
-				return items [index];
 			}
 		}
 

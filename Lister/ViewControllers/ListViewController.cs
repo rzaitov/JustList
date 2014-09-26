@@ -8,6 +8,7 @@ using ListerKit;
 using NotificationCenter;
 using System.Drawing;
 using CoreGraphics;
+using System.Collections.Generic;
 
 namespace Lister
 {
@@ -26,11 +27,20 @@ namespace Lister
 
 		UIBarButtonItem[] listToolbarItems;
 
-		List List { get; set; }
+		List list;
+		public List List {
+			get {
+				return list;
+			}
+			set {
+				list = value;
+				CreateTextArrtibutes ();
+			}
+		}
+		IList<ListItem> items;
+		readonly ListService listService;
 
 		public DocumentsViewController MasterController { get; set; }
-
-		NSObject docStateChangeToken;
 
 		UIStringAttributes textAttributes;
 		UIStringAttributes TextAttributes {
@@ -48,6 +58,8 @@ namespace Lister
 		public ListViewController(IntPtr handle)
 			: base (handle)
 		{
+			listService = ServiceLocator.ListService;
+
 			string title = "Delete List";
 			UIBarButtonItem deleteList = new UIBarButtonItem (title, UIBarButtonItemStyle.Plain, DeleteList);
 
@@ -70,6 +82,12 @@ namespace Lister
 
 			// Use the edit button item provided by the table view controller.
 			NavigationItem.RightBarButtonItem = EditButtonItem;
+		}
+
+		public override void ViewWillAppear (bool animated)
+		{
+			base.ViewWillAppear (animated);
+			items = listService.FetchItems (List.Id);
 		}
 
 		public override void ViewWillDisappear (bool animated)
@@ -98,7 +116,7 @@ namespace Lister
 			// If moving out of edit mode, notify observers about the list color and trigger a save.
 			if (!editing) {
 				// Notify the document of a change.
-				MasterController.UpdateDocumentColor (List, List.Color);
+				MasterController.UpdateDocumentColor (list, list.Color);
 			}
 
 			NavigationController.SetToolbarHidden (!editing, animated);
@@ -111,7 +129,7 @@ namespace Lister
 
 		public override nint RowsInSection (UITableView tableview, nint section)
 		{
-			return List == null ? 0 : List.Count + 1;
+			return list == null ? 0 : items.Count + 1;
 		}
 
 		public override UITableViewCell GetCell (UITableView tableView, NSIndexPath indexPath)
@@ -141,7 +159,7 @@ namespace Lister
 				itemCell.TextField.Placeholder = "Add Item";
 				itemCell.CheckBox.Hidden = true;
 			} else {
-				ListItem item = List[row - 1];
+				ListItem item = items[row - 1];
 
 				itemCell.Completed = item.IsComplete;
 				itemCell.TextField.Text = item.Text;
@@ -165,16 +183,16 @@ namespace Lister
 			if (editingStyle != UITableViewCellEditingStyle.Delete)
 				return;
 
-			ListItem item = List[indexPath.Row - 1];
-			List.RemoveItems (new ListItem[]{ item });
+			ListItem item = items[indexPath.Row - 1];
+			list.RemoveItems (new ListItem[]{ item });
 
 			TableView.DeleteRows (new NSIndexPath[]{ indexPath }, UITableViewRowAnimation.Automatic);
 		}
 
 		public override void MoveRow (UITableView tableView, NSIndexPath sourceIndexPath, NSIndexPath destinationIndexPath)
 		{
-			ListItem item = List[sourceIndexPath.Row - 1];
-			List.MoveItem (item, destinationIndexPath.Row - 1);
+			ListItem item = items[sourceIndexPath.Row - 1];
+			list.MoveItem (item, destinationIndexPath.Row - 1);
 		}
 
 		#endregion
@@ -195,19 +213,19 @@ namespace Lister
 
 		public override NSIndexPath CustomizeMoveTarget (UITableView tableView, NSIndexPath sourceIndexPath, NSIndexPath proposedIndexPath)
 		{
-			ListItem item = List[sourceIndexPath.Row - 1];
+			ListItem item = items[sourceIndexPath.Row - 1];
 
 			int row;
 			if (proposedIndexPath.Row == 0) {
-				row = item.IsComplete ? List.IndexOfFirstCompletedItem() + 1 : 1;
+				row = item.IsComplete ? list.IndexOfFirstCompletedItem() + 1 : 1;
 				return NSIndexPath.FromRowSection (row, 0);
-			} else if (List.CanMoveItem(item, proposedIndexPath.Row - 1, false)) {
+			} else if (list.CanMoveItem(item, proposedIndexPath.Row - 1, false)) {
 				return proposedIndexPath;
 			} else if (item.IsComplete) {
-				row = List.IndexOfFirstCompletedItem () + 1;
+				row = list.IndexOfFirstCompletedItem () + 1;
 				return NSIndexPath.FromRowSection (row, 0);
 			} else {
-				row = List.IndexOfFirstCompletedItem ();
+				row = list.IndexOfFirstCompletedItem ();
 				return NSIndexPath.FromRowSection (row, 0);
 			}
 		}
@@ -223,7 +241,7 @@ namespace Lister
 
 			if (indexPath.Row > 0) {
 				// Edit the item in place.
-				ListItem item = List[indexPath.Row - 1];
+				ListItem item = items[indexPath.Row - 1];
 
 				// If the contents of the text field at the end of editing is the same as it started, don't trigger an update.
 				if (item.Text != textField.Text) {
@@ -232,7 +250,7 @@ namespace Lister
 			} else if (textField.Text.Length > 0) {
 				// Adds the item to the top of the list.
 				ListItem item = new ListItem (textField.Text);
-				int insertedIndex = List.InsertItem (item);
+				int insertedIndex = list.InsertItem (item);
 
 				// Update the edit row to show the check box.
 				ListItemCell itemCell = (ListItemCell)TableView.CellAt (indexPath);
@@ -266,15 +284,19 @@ namespace Lister
 
 		public void OnListColorCellDidChangeSelectedColor (ListColor color)
 		{
-			List.Color = color;
-
-			TextAttributes = new UIStringAttributes {
-				Font = UIFont.PreferredHeadline,
-				ForegroundColor = AppColors.ColorFrom (List.Color)
-			};
+			list.Color = color;
+			CreateTextArrtibutes ();
 
 			NSIndexPath[] indexPaths = TableView.IndexPathsForVisibleRows;
 			TableView.ReloadRows (indexPaths, UITableViewRowAnimation.None);
+		}
+
+		void CreateTextArrtibutes ()
+		{
+			TextAttributes = new UIStringAttributes {
+				Font = UIFont.PreferredHeadline,
+				ForegroundColor = AppColors.ColorFrom (list.Color)
+			};
 		}
 
 		#region IBActions
@@ -297,9 +319,9 @@ namespace Lister
 		{
 			NSIndexPath indexPath = IndexPathForView (sender);
 
-			if (indexPath.Row >= 1 && indexPath.Row <= List.Count) {
-				ListItem item = List[indexPath.Row - 1];
-				ListOperationInfo info = List.ToggleItem (item, -1);
+			if (indexPath.Row >= 1 && indexPath.Row <= list.Count) {
+				ListItem item = items[indexPath.Row - 1];
+				ListOperationInfo info = list.ToggleItem (item, -1);
 
 				if (info.FromIndex == info.ToIndex) {
 					TableView.ReloadRows(new NSIndexPath[] { indexPath }, UITableViewRowAnimation.Automatic);
