@@ -38,7 +38,7 @@ namespace Lister
 			}
 		}
 		ListVisualManager manager;
-		IList<ListItem> items;
+		IList<Item> items;
 		readonly ListService listService;
 
 		public DocumentsViewController MasterController { get; set; }
@@ -161,7 +161,7 @@ namespace Lister
 				itemCell.TextField.Placeholder = "Add Item";
 				itemCell.CheckBox.Hidden = true;
 			} else {
-				ListItem item = items[row - 1];
+				Item item = items[row - 1];
 
 				itemCell.Completed = item.IsComplete;
 				itemCell.TextField.Text = item.Text;
@@ -185,15 +185,15 @@ namespace Lister
 			if (editingStyle != UITableViewCellEditingStyle.Delete)
 				return;
 
-			ListItem item = items[indexPath.Row - 1];
-			manager.RemoveItems (new ListItem[]{ item });
+			Item item = items[indexPath.Row - 1];
+			manager.RemoveItems (new Item[]{ item });
 
 			TableView.DeleteRows (new NSIndexPath[]{ indexPath }, UITableViewRowAnimation.Automatic);
 		}
 
 		public override void MoveRow (UITableView tableView, NSIndexPath sourceIndexPath, NSIndexPath destinationIndexPath)
 		{
-			ListItem item = items[sourceIndexPath.Row - 1];
+			Item item = items[sourceIndexPath.Row - 1];
 			manager.MoveItem (item, destinationIndexPath.Row - 1);
 		}
 
@@ -215,7 +215,7 @@ namespace Lister
 
 		public override NSIndexPath CustomizeMoveTarget (UITableView tableView, NSIndexPath sourceIndexPath, NSIndexPath proposedIndexPath)
 		{
-			ListItem item = items[sourceIndexPath.Row - 1];
+			Item item = items[sourceIndexPath.Row - 1];
 
 			int row;
 			if (proposedIndexPath.Row == 0) {
@@ -243,7 +243,7 @@ namespace Lister
 
 			if (indexPath.Row > 0) {
 				// Edit the item in place.
-				ListItem item = items[indexPath.Row - 1];
+				Item item = items[indexPath.Row - 1];
 
 				// If the contents of the text field at the end of editing is the same as it started, don't trigger an update.
 				if (item.Text != textField.Text) {
@@ -251,7 +251,7 @@ namespace Lister
 				}
 			} else if (textField.Text.Length > 0) {
 				// Adds the item to the top of the list.
-				ListItem item = new ListItem (textField.Text);
+				Item item = new Item (textField.Text);
 				int insertedIndex = manager.InsertItem (item);
 
 				// Update the edit row to show the check box.
@@ -322,7 +322,7 @@ namespace Lister
 			NSIndexPath indexPath = IndexPathForView (sender);
 
 			if (indexPath.Row >= 1 && indexPath.Row <= items.Count) {
-				ListItem item = items[indexPath.Row - 1];
+				Item item = items[indexPath.Row - 1];
 				ListOperationInfo info = manager.ToggleItem (item, -1);
 
 				if (info.FromIndex == info.ToIndex) {

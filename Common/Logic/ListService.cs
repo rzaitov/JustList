@@ -21,30 +21,30 @@ namespace Common
 			};
 		}
 
-		public IList<ListItem> FetchItems(Guid listId)
+		public IList<Item> FetchItems(Guid listId)
 		{
 			if (listId == Guid.Parse ("52bf9a8a-9b52-4fba-8cd0-22dbe62e28df")) {
-				return new List<ListItem> {
-					new ListItem {
+				return new List<Item> {
+					new Item {
 						IsComplete = false,
 						Text = "Apple"
 					},
-					new ListItem {
+					new Item {
 						IsComplete = true,
 						Text = "Banana"
 					}
 				};
 			} else if (listId == Guid.Parse ("c8fd7a85-98f5-40d8-8002-a6a298397ee2")) {
-				return new List<ListItem> {
-					new ListItem {
+				return new List<Item> {
+					new Item {
 						IsComplete = false,
 						Text = "Cycle"
 					},
-					new ListItem {
+					new Item {
 						IsComplete = true,
 						Text = "Car"
 					},
-					new ListItem {
+					new Item {
 						IsComplete = true,
 						Text = "Train"
 					}

@@ -36,23 +36,21 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
-    <Folder Include="Utils\" />
+    <Folder Include="Model\" />
+    <Folder Include="Logic\" />
+    <Folder Include="Presentation\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Colors\AppColors.cs" />
-    <Compile Include="Colors\ListColor.cs" />
-    <Compile Include="Configuration\AppConfig.cs" />
-    <Compile Include="Configuration\StorageState.cs" />
-    <Compile Include="Configuration\StorageType.cs" />
-    <Compile Include="CheckBoxLayer.cs" />
-    <Compile Include="List.cs" />
-    <Compile Include="ListItem.cs" />
-    <Compile Include="ListOperationInfo.cs" />
-    <Compile Include="Utils\ComparisionComparer.cs" />
-    <Compile Include="ServiceLocator.cs" />
-    <Compile Include="ListService.cs" />
-    <Compile Include="ListVisualManager.cs" />
+    <Compile Include="Model\List.cs" />
+    <Compile Include="Model\Item.cs" />
+    <Compile Include="Logic\ServiceLocator.cs" />
+    <Compile Include="Logic\ListService.cs" />
+    <Compile Include="Model\ListColor.cs" />
+    <Compile Include="AppColors.cs" />
+    <Compile Include="Presentation\ListOperationInfo.cs" />
+    <Compile Include="Presentation\ListVisualManager.cs" />
+    <Compile Include="ComparisionComparer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

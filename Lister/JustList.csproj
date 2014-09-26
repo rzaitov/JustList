@@ -117,10 +117,11 @@
     <Compile Include="Views\ListItemCell.cs" />
     <Compile Include="ViewControllers\DocumentsViewController.cs" />
     <Compile Include="ViewControllers\NewDocumentController.cs" />
+    <Compile Include="Views\CheckBox.cs" />
+    <Compile Include="Views\CheckBoxLayer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="ListerKit\" />
     <Folder Include="ViewControllers\" />
     <Folder Include="Views\" />
     <Folder Include="Resources\Images.xcassets\" />
@@ -132,10 +133,6 @@
     <ProjectReference Include="..\Common\Common.csproj">
       <Project>{5FE2B2BC-6C40-4C8B-A501-7BDA2BBA291F}</Project>
       <Name>Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ListerKit\ListerKit.csproj">
-      <Project>{6DB5CB09-C2DA-414B-A216-FA14CEEED91C}</Project>
-      <Name>ListerKit</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
