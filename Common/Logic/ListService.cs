@@ -57,6 +57,10 @@ namespace Common
 			return list;
 		}
 
+		/// <summary>
+		/// This method returns List's items. If List exists with provided id at least empty collection will be returned.
+		/// If no List with specified Id exists null will be returned
+		/// </summary>
 		public IList<Item> FetchItems(Guid listId)
 		{
 			if (storage.ContainsKey (listId))
@@ -84,6 +88,7 @@ namespace Common
 				throw new ArgumentException (string.Format ("list with name {0} already exists", newList.Name));
 
 			list.Add (newList);
+			storage.Add (newList.Id, new List<Item> ());
 		}
 	}
 }
