@@ -21,8 +21,17 @@ namespace Common
 		/// </summary>
 		public void InitStorage()
 		{
-
 			connection.CreateTable<List> ();
+			connection.CreateTable<Item> ();
+		}
+
+		/// <summary>
+		/// This for testing only. Don't use in production
+		/// </summary>
+		public void DropStorage()
+		{
+			connection.DropTable<List> ();
+			connection.DropTable<Item> ();
 		}
 
 		#region IListService implementation
