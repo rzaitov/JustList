@@ -77,7 +77,16 @@ SELECT EXISTS (
 
 		public void UpdateList (List list)
 		{
-			throw new NotImplementedException ();
+			if (list == null)
+				throw new ArgumentNullException ("list");
+
+			var id = list.Id;
+			if (id == default(Guid))
+				throw new ArgumentException (string.Format ("Invalid id={0} value for List item", id));
+
+			int affectedRows = connection.Update (list, typeof(List));
+			if(affectedRows == 0)
+				throw new InvalidProgramException (string.Format ("List with id={0} doesn't exists", id));
 		}
 
 		public void DeleteList (Guid listId)
