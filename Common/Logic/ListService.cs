@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Common
 {
@@ -62,6 +63,15 @@ namespace Common
 				return storage [listId];
 
 			return null;
+		}
+
+		public bool IsNameValid(string listName)
+		{
+			if (string.IsNullOrWhiteSpace (listName))
+				return false;
+
+			bool exists = list.Any ( l => l.Name == listName);
+			return !exists;
 		}
 	}
 }

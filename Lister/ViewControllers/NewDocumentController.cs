@@ -43,11 +43,14 @@ namespace Lister
 		ListColor selectedColor;
 		string selectedTitle;
 
+		readonly ListService listService;
+
 		public DocumentsViewController MasterController { get; set; }
 
 		public NewDocumentController (IntPtr handle)
 			: base (handle)
 		{
+			listService = ServiceLocator.ListService;
 		}
 
 		#region UITextFieldDelegate
@@ -55,12 +58,16 @@ namespace Lister
 		[Export ("textFieldDidEndEditing:")]
 		public void EditingEnded (UITextField textField)
 		{
-			throw new NotImplementedException();
-			var isValidName = true;
+			var isValidName = IsNameValid(textField.Text);
 			if (isValidName) {
 				SaveButton.Enabled = true;
 				selectedTitle = textField.Text;
 			}
+		}
+
+		bool IsNameValid(string listName)
+		{
+			return listService.IsNameValid(listName);
 		}
 
 		[Export ("textFieldShouldReturn:")]
