@@ -52,7 +52,15 @@ ON `Item`.`list_id` = `List`.`id`
 
 		public bool IsNameValid (string listName)
 		{
-			throw new NotImplementedException ();
+			var exists = connection.Query<bool>(@"
+SELECT EXISTS (
+    SELECT `id`
+    FROM `List`
+    WHERE `List`.`name` = ?
+    LIMIT 1)
+", listName);
+
+			return !exists;
 		}
 
 		public void AddNewList (List newList)
