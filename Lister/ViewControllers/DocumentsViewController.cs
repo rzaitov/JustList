@@ -143,13 +143,16 @@ namespace Lister
 
 		#endregion
 
+		/// <summary>
+		/// This make sence only for iPad
+		/// </summary>
+		/// <param name="listViewController">List view controller.</param>
 		public void ListViewControllerDidDeleteList (ListViewController listViewController)
 		{
 			if (listViewController == null)
 				throw new ArgumentNullException ("listViewController");
 
 			TableView.DeselectRow (TableView.IndexPathForSelectedRow, false);
-			// DeleteListAtUrl (listViewController.DocumentURL);
 		}
 
 		#region UIStoryboardSegue Handling

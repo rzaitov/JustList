@@ -97,10 +97,25 @@ namespace Common
 				throw new ArgumentNullException ("list");
 
 			int index = listCollection.FindIndex (l => l.Id == list.Id);
-			if (index == -1)
-				throw new InvalidProgramException (string.Format ("List with Id={0} doesn't exists", list.Id));
+			AssertListExists (index, list.Id);
 
 			listCollection [index] = list;
+		}
+
+		public void DeleteList(Guid listId)
+		{
+			int index = listCollection.FindIndex (l => l.Id == listId);
+			AssertListExists (index, listId);
+
+			// Remove items relative to List
+			storage.Remove (listId);
+			listCollection.RemoveAt (index);
+		}
+
+		void AssertListExists(int index, Guid listId)
+		{
+			if (index == -1)
+				throw new InvalidProgramException (string.Format ("List with Id={0} doesn't exists", listId));
 		}
 	}
 }

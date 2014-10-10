@@ -305,15 +305,13 @@ namespace Lister
 
 		void DeleteList(object sender, EventArgs e)
 		{
-			if (SplitViewController.Collapsed) {
-				NavigationController.PopViewController (true);
-			} else {
-				// TODO: unnecessary cast https://trello.com/c/7SNAREch
-				var emptyViewController = (UIViewController)Storyboard.InstantiateViewController (EmptyViewControllerStoryboardIdentifier);
-				SplitViewController.ShowDetailViewController (emptyViewController, null);
-			}
+			// TODO: On iPad we should show empty controller with SplitViewController
+//			var emptyViewController = (UIViewController)Storyboard.InstantiateViewController (EmptyViewControllerStoryboardIdentifier);
+//			SplitViewController.ShowDetailViewController (emptyViewController, null);
 
+			listService.DeleteList (list.Id);
 			MasterController.ListViewControllerDidDeleteList (this);
+			NavigationController.PopViewController (true);
 		}
 
 		[Export("checkBoxTapped:")]
