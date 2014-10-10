@@ -118,7 +118,7 @@ namespace Lister
 			// If moving out of edit mode, notify observers about the list color and trigger a save.
 			if (!editing) {
 				// Notify the document of a change.
-				MasterController.UpdateDocumentColor (list, list.Color);
+				MasterController.UpdateDocumentColor (list.Id, list.Color);
 			}
 
 			NavigationController.SetToolbarHidden (!editing, animated);

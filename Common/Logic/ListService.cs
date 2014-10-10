@@ -6,12 +6,12 @@ namespace Common
 {
 	public class ListService
 	{
-		readonly IList<List> list;
+		readonly IList<List> listCollection;
 		readonly Dictionary<Guid, List<Item>> storage;
 
 		public ListService()
 		{
-			list = new List<List> {
+			listCollection = new List<List> {
 				new List {
 					Name = "First",
 					Color = ListColor.Red,
@@ -54,7 +54,7 @@ namespace Common
 
 		public IList<List> FetchLists()
 		{
-			return list;
+			return listCollection;
 		}
 
 		/// <summary>
@@ -74,7 +74,7 @@ namespace Common
 			if (string.IsNullOrWhiteSpace (listName))
 				return false;
 
-			bool exists = list.Any ( l => l.Name == listName);
+			bool exists = listCollection.Any ( l => l.Name == listName);
 			return !exists;
 		}
 
@@ -87,8 +87,20 @@ namespace Common
 			if (!isNameValid)
 				throw new ArgumentException (string.Format ("list with name {0} already exists", newList.Name));
 
-			list.Add (newList);
+			listCollection.Add (newList);
 			storage.Add (newList.Id, new List<Item> ());
+		}
+
+		public void UpdateList(List list)
+		{
+			if (list == null)
+				throw new ArgumentNullException ("list");
+
+			int index = listCollection.FindIndex (l => l.Id == list.Id);
+			if (index == -1)
+				throw new InvalidProgramException (string.Format ("List with Id={0} doesn't exists", list.Id));
+
+			listCollection [index] = list;
 		}
 	}
 }

@@ -8,6 +8,7 @@ using Foundation;
 
 using Common;
 using ListerKit;
+using System.Linq;
 
 namespace Lister
 {
@@ -206,22 +207,32 @@ namespace Lister
 
 		#region Notifications
 
-		public void UpdateDocumentColor(List list, ListColor newColor)
+		public void UpdateDocumentColor(Guid listId, ListColor newColor)
 		{
-			throw new NotImplementedException ();
-			/*
-			ListInfo listInfo = new ListInfo (list);
+			int index = listCollection.FindIndex (l => l.Id == listId);
+			if (index != -1)
+				UpdateDocumentColor (index, newColor);
+			else
+				HandleChangeColorForNonExistentList (listId);
+		}
 
-			int index = list.IndexOf(listInfo);
-			if (index != -1) {
-				listInfo = list[index];
-				listInfo.Color = newColor;
+		void UpdateDocumentColor(int index, ListColor newColor)
+		{
+			var list = listCollection [index];
+			list.Color = newColor;
 
-				NSIndexPath indexPath = NSIndexPath.FromRowSection (index, 0);
-				ListCell cell = (ListCell)TableView.CellAt (indexPath);
-				cell.ListColorView.BackgroundColor = AppColors.ColorFrom (newColor);
-			}
-			*/
+			listService.UpdateList (list);
+
+			NSIndexPath indexPath = NSIndexPath.FromRowSection (index, 0);
+			ListCell cell = (ListCell)TableView.CellAt (indexPath);
+			cell.ListColorView.BackgroundColor = AppColors.ColorFrom (newColor);
+		}
+
+		void HandleChangeColorForNonExistentList(Guid listId)
+		{
+			string message = string.Format ("asked change color for non-existent list. List id = {0}", listId);
+			// TODO: replace with alert
+			throw new InvalidProgramException (message);
 		}
 
 		void HandleContentSizeCategoryDidChangeNotification(object sender, UIContentSizeCategoryChangedEventArgs arg)

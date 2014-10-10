@@ -51,6 +51,7 @@
     <Compile Include="Presentation\ListOperationInfo.cs" />
     <Compile Include="Presentation\ListVisualManager.cs" />
     <Compile Include="ComparisionComparer.cs" />
+    <Compile Include="Helper.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
