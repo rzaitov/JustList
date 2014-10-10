@@ -38,6 +38,9 @@ namespace Lister
 		[Outlet("titleLabel")]
 		UILabel TitleLabel { get; set; }
 
+		[Outlet("NameInput")]
+		UITextField NameInput { get; set; }
+
 		UIButton selectedButton;
 
 		ListColor selectedColor;
@@ -84,6 +87,8 @@ namespace Lister
 		[Export("pickColor:")]
 		public void PickColor(UIButton sender)
 		{
+			NameInput.ResignFirstResponder();
+
 			// Use the button's tag to determine the color.
 			selectedColor = (ListColor)(int)sender.Tag;
 
