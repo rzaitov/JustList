@@ -51,6 +51,7 @@ namespace Lister
 			base.ViewWillAppear (animated);
 
 			listCollection = listService.FetchLists ();
+			TableView.ReloadData ();
 
 			SetupTextAttributes ();
 

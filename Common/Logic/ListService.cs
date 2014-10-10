@@ -73,6 +73,18 @@ namespace Common
 			bool exists = list.Any ( l => l.Name == listName);
 			return !exists;
 		}
+
+		public void AddNewList(List newList)
+		{
+			if (newList == null)
+				throw new ArgumentNullException ("list");
+
+			bool isNameValid = IsNameValid (newList.Name);
+			if (!isNameValid)
+				throw new ArgumentException (string.Format ("list with name {0} already exists", newList.Name));
+
+			list.Add (newList);
+		}
 	}
 }
 

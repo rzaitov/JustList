@@ -16,6 +16,7 @@ namespace Common
 
 		public List ()
 		{
+			Id = Guid.NewGuid ();
 		}
 
 		public List(ListColor color)

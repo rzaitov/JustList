@@ -100,25 +100,15 @@ namespace Lister
 		}
 
 		[Export("saveAction:")]
-		public void SaveAction(NSObject sender)
+		public void SaveAction(UIButton sender)
 		{
-			throw new NotImplementedException();
-			/*
-			ListInfo listInfo = new ListInfo(FileUrl);
-			listInfo.Color = selectedColor;
-			listInfo.Name = selectedTitle;
+			var list = new List {
+				Name = selectedTitle,
+				Color = selectedColor
+			};
+			listService.AddNewList (list);
 
-			listInfo.CreateAndSaveWithCompletionHandler (success => {
-				if (success) {
-					MasterController.OnNewListInfo(listInfo);
-				} else {
-					// In your app, you should handle this error gracefully.
-					Console.WriteLine ("Unable to create new document at URL: {0}", FileUrl.AbsoluteString);
-					throw new InvalidProgramException();
-				}
-				DismissViewController(true, null);
-			});
-			*/
+			DismissViewController (true, null);
 		}
 
 		[Export("cancelAction:")]
