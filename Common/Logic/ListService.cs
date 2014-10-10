@@ -52,7 +52,7 @@ ON `Item`.`list_id` = `List`.`id`
 
 		public bool IsNameValid (string listName)
 		{
-			var exists = connection.Query<bool>(@"
+			bool exists = connection.ExecuteScalar<bool>(@"
 SELECT EXISTS (
     SELECT `id`
     FROM `List`
@@ -68,6 +68,8 @@ SELECT EXISTS (
 			if (newList == null)
 				throw new ArgumentNullException ("list");
 
+			AssertListId (newList.Id);
+
 			bool isNameValid = IsNameValid (newList.Name);
 			if (!isNameValid)
 				throw new ArgumentException (string.Format ("list with name {0} already exists", newList.Name));
@@ -81,17 +83,30 @@ SELECT EXISTS (
 				throw new ArgumentNullException ("list");
 
 			var id = list.Id;
-			if (id == default(Guid))
-				throw new ArgumentException (string.Format ("Invalid id={0} value for List item", id));
+			AssertListId (id);
 
 			int affectedRows = connection.Update (list, typeof(List));
+			AssertListRowExists (affectedRows, id);
+		}
+
+		public void DeleteList (Guid id)
+		{
+			AssertListId (id);
+
+			int affectedRows = connection.Delete<List> (id);
+			AssertListRowExists (affectedRows, id);
+		}
+
+		void AssertListRowExists(int affectedRows, Guid id)
+		{
 			if(affectedRows == 0)
 				throw new InvalidProgramException (string.Format ("List with id={0} doesn't exists", id));
 		}
 
-		public void DeleteList (Guid listId)
+		void AssertListId(Guid id)
 		{
-			throw new NotImplementedException ();
+			if (id == default(Guid))
+				throw new ArgumentException (string.Format ("Invalid id={0} value for List item", id));
 		}
 
 		#endregion
