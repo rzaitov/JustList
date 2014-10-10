@@ -65,7 +65,14 @@ SELECT EXISTS (
 
 		public void AddNewList (List newList)
 		{
-			throw new NotImplementedException ();
+			if (newList == null)
+				throw new ArgumentNullException ("list");
+
+			bool isNameValid = IsNameValid (newList.Name);
+			if (!isNameValid)
+				throw new ArgumentException (string.Format ("list with name {0} already exists", newList.Name));
+
+			connection.Insert (newList, typeof(List));
 		}
 
 		public void UpdateList (List list)
