@@ -79,27 +79,14 @@ namespace Lister
 
 		void SelectListWithListInfo(List list)
 		{
-			UISplitViewController splitViewController = SplitViewController;
-
-			Action<ListViewController> ConfigureListViewController = listViewController => {
-				listViewController.List = list;
-				listViewController.MasterController = this;
+			Action<ListViewController> ConfigureListViewController = controller => {
+				controller.List = list;
+				controller.MasterController = this;
 			};
 
-			if (splitViewController.Collapsed) {
-				ListViewController listViewController = (ListViewController)Storyboard.InstantiateViewController ("listViewController");
-				ConfigureListViewController(listViewController);
-				ShowViewController (listViewController, this);
-			} else {
-				UINavigationController navigationController = (UINavigationController)Storyboard.InstantiateViewController ("listViewNavigationController");
-				ListViewController listViewController = (ListViewController)navigationController.TopViewController;
-				ConfigureListViewController(listViewController);
-				SplitViewController.ViewControllers = new UIViewController[] {
-					SplitViewController.ViewControllers [0],
-					new UIViewController ()
-				};
-				ShowDetailViewController (navigationController, this);
-			}
+			ListViewController listViewController = (ListViewController)Storyboard.InstantiateViewController ("listViewController");
+			ConfigureListViewController(listViewController);
+			NavigationController.PushViewController (listViewController, true);
 		}
 
 		#endregion
