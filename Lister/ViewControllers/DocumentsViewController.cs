@@ -28,7 +28,7 @@ namespace Lister
 		NSObject sizeChangedToken, updateToken;
 		IList<List> listCollection;
 
-		readonly ListService listService;
+		readonly IListService listService;
 
 		public DocumentsViewController(IntPtr handle)
 			: base(handle)

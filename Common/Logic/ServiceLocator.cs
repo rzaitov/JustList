@@ -4,7 +4,7 @@ namespace Common
 {
 	public class ServiceLocator
 	{
-		public static ListService ListService { get; set; }
+		public static IListService ListService { get; set; }
 	}
 }
 

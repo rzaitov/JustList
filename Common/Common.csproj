@@ -45,13 +45,20 @@
     <Compile Include="Model\List.cs" />
     <Compile Include="Model\Item.cs" />
     <Compile Include="Logic\ServiceLocator.cs" />
-    <Compile Include="Logic\ListService.cs" />
     <Compile Include="Model\ListColor.cs" />
     <Compile Include="AppColors.cs" />
     <Compile Include="Presentation\ListOperationInfo.cs" />
     <Compile Include="Presentation\ListVisualManager.cs" />
     <Compile Include="ComparisionComparer.cs" />
     <Compile Include="Helper.cs" />
+    <Compile Include="SQLite.cs" />
+    <Compile Include="SQLiteAsync.cs" />
+    <Compile Include="Logic\IListService.cs" />
+    <Compile Include="Logic\MockListService.cs" />
+    <Compile Include="Logic\ListService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
 </Project>

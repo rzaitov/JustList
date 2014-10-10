@@ -46,7 +46,7 @@ namespace Lister
 		ListColor selectedColor;
 		string selectedTitle;
 
-		readonly ListService listService;
+		readonly IListService listService;
 
 		public DocumentsViewController MasterController { get; set; }
 

@@ -39,7 +39,7 @@ namespace Lister
 		}
 		ListVisualManager manager;
 		IList<Item> items;
-		readonly ListService listService;
+		readonly IListService listService;
 
 		public DocumentsViewController MasterController { get; set; }
 

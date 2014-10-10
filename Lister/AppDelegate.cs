@@ -20,7 +20,7 @@ namespace Lister
 			Console.WriteLine (IntPtr.Size);
 			Console.WriteLine ("FinishedLaunching");
 
-			ServiceLocator.ListService = new ListService ();
+			ServiceLocator.ListService = new MockListService ();
 
 			return true;
 		}
