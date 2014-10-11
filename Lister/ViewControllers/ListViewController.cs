@@ -89,6 +89,13 @@ namespace Lister
 		{
 			base.ViewWillAppear (animated);
 			items = listService.FetchItems (List.Id);
+			((List<Item>)items).Sort ((i1, i2) => {
+				if(i1.IsComplete ^ i2.IsComplete)
+					return i1.IsComplete.CompareTo(i2.IsComplete);
+				else
+					return i1.Text.CompareTo(i2.Text);
+			});
+
 			manager = new ListVisualManager (items);
 		}
 
