@@ -239,33 +239,49 @@ namespace Lister
 		[Export ("textFieldDidEndEditing:")]
 		public void EditingEnded (UITextField textField)
 		{
+			if (string.IsNullOrWhiteSpace (textField.Text))
+				return;
+
+			string text = textField.Text.Trim ();
+
 			NSIndexPath indexPath = IndexPathForView (textField);
+			bool isNewItem = indexPath.Row == 0;
+			if (isNewItem)
+				AddNewItem (text, indexPath);
+			else
+				UpdateText (items [indexPath.Row - 1], text);
+		}
 
-			if (indexPath.Row > 0) {
-				// Edit the item in place.
-				Item item = items[indexPath.Row - 1];
-
-				// If the contents of the text field at the end of editing is the same as it started, don't trigger an update.
-				if (item.Text != textField.Text) {
-					item.Text = textField.Text;
-				}
-			} else if (textField.Text.Length > 0) {
-				// Adds the item to the top of the list.
-				Item item = new Item (textField.Text);
-				int insertedIndex = manager.InsertItem (item);
-
-				// Update the edit row to show the check box.
-				ListItemCell itemCell = (ListItemCell)TableView.CellAt (indexPath);
-				itemCell.CheckBox.Hidden = false;
-
-				// Insert a new add item row into the table view.
-				TableView.BeginUpdates ();
-
-				NSIndexPath targetIndexPath = NSIndexPath.FromRowSection (insertedIndex, 0);
-				TableView.InsertRows (new NSIndexPath[] { targetIndexPath }, UITableViewRowAnimation.Automatic);
-
-				TableView.EndUpdates ();
+		/// <summary>
+		/// Item must exists. Method changes text for existed Item
+		/// </summary>
+		void UpdateText(Item item, string text)
+		{
+			// If the contents of the text field at the end of editing is the same as it started, don't trigger an update.
+			if (item.Text != text) {
+				item.Text = text;
+				listService.Update (item);
 			}
+		}
+
+		void AddNewItem(string text, NSIndexPath indexPath)
+		{
+			// Adds the item to the top of the list.
+			Item item = Item.Create (List.Id, text);
+			int insertedIndex = manager.InsertItem (item);
+
+			// Update the edit row to show the check box.
+			ListItemCell itemCell = (ListItemCell)TableView.CellAt (indexPath);
+			itemCell.CheckBox.Hidden = false;
+
+			listService.Add (item);
+			// Insert a new add item row into the table view.
+			TableView.BeginUpdates ();
+
+			NSIndexPath targetIndexPath = NSIndexPath.FromRowSection (insertedIndex, 0);
+			TableView.InsertRows (new NSIndexPath[] { targetIndexPath }, UITableViewRowAnimation.Automatic);
+
+			TableView.EndUpdates ();
 		}
 
 		[Export ("textFieldShouldReturn:")]
@@ -309,7 +325,7 @@ namespace Lister
 //			var emptyViewController = (UIViewController)Storyboard.InstantiateViewController (EmptyViewControllerStoryboardIdentifier);
 //			SplitViewController.ShowDetailViewController (emptyViewController, null);
 
-			listService.Delete (list.Id);
+			listService.DeleteList (list.Id);
 			MasterController.ListViewControllerDidDeleteList (this);
 			NavigationController.PopViewController (true);
 		}

@@ -43,9 +43,10 @@ namespace Lister
 		{
 //			ServiceLocator.ListService = new MockListService ();
 
+			Console.WriteLine (DbFilePath);
 			var service = new ListService (new SQLiteConnection(DbFilePath, true));
-			service.DropStorage ();
-			service.InitStorage ();
+//			service.DropStorage ();
+//			service.InitStorage ();
 			ServiceLocator.ListService = service;
 		}
 	}

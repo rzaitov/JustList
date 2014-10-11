@@ -47,21 +47,6 @@ FROM `List`");
 			return list;
 		}
 
-		public IList<Item> FetchItems (Guid listId)
-		{
-			var list = connection.Find<List> (listId);
-			if (list == null)
-				return null;
-
-			List<Item> items = connection.Query<Item>(@"
-SELECT *
-FROM `Item`
-INNER JOIN `List`
-ON `Item`.`list_id` = `List`.`id`
-");
-			return items;
-		}
-
 		public bool IsListNameValid (string listName)
 		{
 			bool exists = connection.ExecuteScalar<bool>(@"
@@ -156,6 +141,19 @@ SELECT EXISTS (
 
 			var affectedRows = connection.Delete<Item> (id);
 			AssertRowExists (Item, affectedRows, id);
+		}
+
+		public IList<Item> FetchItems (Guid listId)
+		{
+			var list = connection.Find<List> (listId);
+			if (list == null)
+				return null;
+
+			List<Item> items = connection.Query<Item>(@"
+SELECT *
+FROM `Item`
+WHERE `Item`.`list_id` = ?", listId);
+			return items;
 		}
 
 		#endregion

@@ -21,22 +21,18 @@ namespace Common
 		[Column("complete"), NotNull]
 		public bool IsComplete { get; set; }
 
-
-		public Item()
+		public static Item Create(Guid listId, string text)
 		{
+			if (text == null)
+				throw new ArgumentNullException ("text");
 
-		}
+			text = text.Trim ();
 
-		public Item (string text, bool isComplete, Guid uid)
-		{
-			Text = text;
-			IsComplete = isComplete;
-			Id = uid;
-		}
-
-		public Item(string text)
-			: this(text, false, Guid.NewGuid())
-		{
+			return new Item {
+				Id = Guid.NewGuid(),
+				ListId = listId,
+				Text = text,
+			};
 		}
 	}
 }
