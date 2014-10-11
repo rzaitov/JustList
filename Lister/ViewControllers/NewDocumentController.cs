@@ -70,7 +70,7 @@ namespace Lister
 
 		bool IsNameValid(string listName)
 		{
-			return listService.IsNameValid(listName);
+			return listService.IsListNameValid(listName);
 		}
 
 		[Export ("textFieldShouldReturn:")]
@@ -111,7 +111,7 @@ namespace Lister
 				Name = selectedTitle,
 				Color = selectedColor
 			};
-			listService.AddNewList (list);
+			listService.Add (list);
 
 			DismissViewController (true, null);
 		}

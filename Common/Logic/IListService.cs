@@ -5,7 +5,21 @@ namespace Common
 {
 	public interface IListService
 	{
+		#region List
+
 		IList<List> FetchLists();
+
+		bool IsListNameValid(string name);
+
+		void Add(List list);
+
+		void Update(List list);
+
+		void DeleteList(Guid id);
+
+		#endregion
+
+		#region Item
 
 		/// <summary>
 		/// This method returns List's items. If List exists with provided id at least empty collection will be returned.
@@ -13,13 +27,13 @@ namespace Common
 		/// </summary>
 		IList<Item> FetchItems(Guid listId);
 
-		bool IsNameValid(string listName);
+		void Add (Item item);
 
-		void AddNewList(List newList);
+		void Update (Item item);
 
-		void UpdateList(List list);
+		void DeleteItem (Guid id);
 
-		void DeleteList(Guid listId);
+		#endregion
 	}
 }
 

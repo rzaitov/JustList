@@ -309,7 +309,7 @@ namespace Lister
 //			var emptyViewController = (UIViewController)Storyboard.InstantiateViewController (EmptyViewControllerStoryboardIdentifier);
 //			SplitViewController.ShowDetailViewController (emptyViewController, null);
 
-			listService.DeleteList (list.Id);
+			listService.Delete (list.Id);
 			MasterController.ListViewControllerDidDeleteList (this);
 			NavigationController.PopViewController (true);
 		}

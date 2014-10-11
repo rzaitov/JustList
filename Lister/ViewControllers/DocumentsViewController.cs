@@ -224,7 +224,7 @@ namespace Lister
 			var list = listCollection [index];
 			list.Color = newColor;
 
-			listService.UpdateList (list);
+			listService.Update (list);
 
 			NSIndexPath indexPath = NSIndexPath.FromRowSection (index, 0);
 			ListCell cell = (ListCell)TableView.CellAt (indexPath);

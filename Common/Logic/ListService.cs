@@ -6,6 +6,9 @@ namespace Common
 {
 	public class ListService : IListService
 	{
+		const string List = "List";
+		const string Item = "Item";
+
 		readonly SQLiteConnection connection;
 
 		public ListService (SQLiteConnection connection)
@@ -59,7 +62,7 @@ ON `Item`.`list_id` = `List`.`id`
 			return items;
 		}
 
-		public bool IsNameValid (string listName)
+		public bool IsListNameValid (string listName)
 		{
 			bool exists = connection.ExecuteScalar<bool>(@"
 SELECT EXISTS (
@@ -72,53 +75,102 @@ SELECT EXISTS (
 			return !exists;
 		}
 
-		public void AddNewList (List newList)
+		public void Add (List list)
 		{
-			if (newList == null)
+			if (list == null)
 				throw new ArgumentNullException ("list");
 
-			AssertListId (newList.Id);
+			AssertCorrectId (list.Id, List);
 
-			bool isNameValid = IsNameValid (newList.Name);
+			bool isNameValid = IsListNameValid (list.Name);
 			if (!isNameValid)
-				throw new ArgumentException (string.Format ("list with name {0} already exists", newList.Name));
+				throw new ArgumentException (string.Format ("list with name {0} already exists", list.Name));
 
-			connection.Insert (newList, typeof(List));
+			connection.Insert (list, typeof(List));
 		}
 
-		public void UpdateList (List list)
+		public void Update (List list)
 		{
 			if (list == null)
 				throw new ArgumentNullException ("list");
 
 			var id = list.Id;
-			AssertListId (id);
+			AssertCorrectId (id, List);
 
 			int affectedRows = connection.Update (list, typeof(List));
-			AssertListRowExists (affectedRows, id);
+			AssertRowExists (List, affectedRows, id);
 		}
 
 		public void DeleteList (Guid id)
 		{
-			AssertListId (id);
+			AssertCorrectId (id, List);
 
 			int affectedRows = connection.Delete<List> (id);
-			AssertListRowExists (affectedRows, id);
+			AssertRowExists (List, affectedRows, id);
 		}
 
-		void AssertListRowExists(int affectedRows, Guid id)
+		void ThrowIfListNotExists(Guid listId)
+		{
+			AssertCorrectId (listId, List);
+
+			var list = connection.Get<List> (listId);
+			if (list == null)
+				throw new ArgumentException (string.Format ("List {0} doesn't exist", listId));
+		}
+
+		void AssertRowExists(string entityName, int affectedRows, Guid id)
 		{
 			if(affectedRows == 0)
-				throw new InvalidProgramException (string.Format ("List with id={0} doesn't exists", id));
-		}
-
-		void AssertListId(Guid id)
-		{
-			if (id == default(Guid))
-				throw new ArgumentException (string.Format ("Invalid id={0} value for List item", id));
+				throw new InvalidProgramException (string.Format ("{0} with id={1} doesn't exists", entityName, id));
 		}
 
 		#endregion
+
+		#region Item
+
+		public void Add (Item item)
+		{
+			AssertNotNull (item, "item");
+			AssertCorrectId (item.Id, Item);
+
+			var list = connection.Get<List> (item.ListId);
+			if (list == null)
+				throw new ArgumentException (string.Format ("List {0} doesn't exist for item {1}", item.ListId, item.Id));
+
+			connection.Insert (item);
+		}
+
+		public void Update (Item item)
+		{
+			AssertNotNull (item, "item");
+			AssertCorrectId (item.Id, Item);
+
+			ThrowIfListNotExists (item.ListId);
+			var affectedRows = connection.Update (item);
+			AssertRowExists (Item, affectedRows, item.Id);
+		}
+
+		public void DeleteItem (Guid id)
+		{
+			AssertCorrectId (id, Item);
+
+			var affectedRows = connection.Delete<Item> (id);
+			AssertRowExists (Item, affectedRows, id);
+		}
+
+		#endregion
+
+		void AssertNotNull(object obj, string name)
+		{
+			if (obj == null)
+				throw new ArgumentNullException (name);
+		}
+
+		void AssertCorrectId (Guid id, string tableName)
+		{
+			if (id == default(Guid))
+				throw new ArgumentException (string.Format ("Invalid id={0} value for {1}", id, tableName));
+		}
 	}
 }
 

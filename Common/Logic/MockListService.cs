@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Common
 {
-	public class MockListService : IListService
+	public class MockListService// : IListService
 	{
 		readonly IList<List> listCollection;
 		readonly Dictionary<Guid, List<Item>> storage;
