@@ -338,6 +338,7 @@ namespace Lister
 			if (indexPath.Row >= 1 && indexPath.Row <= items.Count) {
 				Item item = items[indexPath.Row - 1];
 				ListOperationInfo info = manager.ToggleItem (item, -1);
+				listService.Update (item);
 
 				if (info.FromIndex == info.ToIndex) {
 					TableView.ReloadRows(new NSIndexPath[] { indexPath }, UITableViewRowAnimation.Automatic);
