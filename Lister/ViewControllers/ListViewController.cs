@@ -88,6 +88,8 @@ namespace Lister
 		public override void ViewWillAppear (bool animated)
 		{
 			base.ViewWillAppear (animated);
+			Title = List.Name;
+
 			items = listService.FetchItems (List.Id);
 			manager = new ListVisualManager (items);
 		}

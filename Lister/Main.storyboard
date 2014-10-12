@@ -227,7 +227,7 @@
                             <outlet property="delegate" destination="6kF-aG-b93" id="GQu-rf-DGM"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Lister" id="NVI-Uw-5fJ">
+                    <navigationItem key="navigationItem" title="JustList" id="NVI-Uw-5fJ">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="7eg-OJ-zgo">
                             <connections>
                                 <segue destination="A6c-cj-pOH" kind="modal" identifier="newListDocument" modalPresentationStyle="formSheet" id="toA-Kc-kat"/>
