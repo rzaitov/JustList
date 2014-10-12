@@ -44,10 +44,32 @@ namespace Lister
 //			ServiceLocator.ListService = new MockListService ();
 
 			Console.WriteLine (DbFilePath);
+
 			var service = new ListService (new SQLiteConnection(DbFilePath, true));
-//			service.DropStorage ();
-//			service.InitStorage ();
+
+			var isFirstRun = !App.RunBefore;
+			if (isFirstRun) {
+				service.InitStorage ();
+				App.SetRunBeforeToTrue ();
+			}
+
 			ServiceLocator.ListService = service;
+		}
+
+		/// <summary>
+		/// Don't call this on production.
+		/// This is convinient method for dropping application.
+		/// </summary>
+		void MakeAsFirstRun()
+		{
+			App.DropUserDefaults ();
+
+			var fileManager = NSFileManager.DefaultManager;
+			bool isDbExists = fileManager.FileExists (DbFileName);
+			if (isDbExists) {
+				NSError error;
+				fileManager.Remove (DbFileName, out error);
+			}
 		}
 	}
 }

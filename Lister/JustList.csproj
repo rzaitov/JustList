@@ -119,6 +119,7 @@
     <Compile Include="ViewControllers\NewDocumentController.cs" />
     <Compile Include="Views\CheckBox.cs" />
     <Compile Include="Views\CheckBoxLayer.cs" />
+    <Compile Include="App.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
