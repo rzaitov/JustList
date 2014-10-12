@@ -81,13 +81,10 @@ namespace Lister
 
 		void SelectListWithListInfo(List list)
 		{
-			Action<ListViewController> ConfigureListViewController = controller => {
-				controller.List = list;
-				controller.MasterController = this;
-			};
-
 			ListViewController listViewController = (ListViewController)Storyboard.InstantiateViewController ("listViewController");
-			ConfigureListViewController(listViewController);
+			listViewController.List = list;
+			listViewController.MasterController = this;
+
 			NavigationController.PushViewController (listViewController, true);
 		}
 
