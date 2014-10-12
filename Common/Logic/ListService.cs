@@ -153,7 +153,22 @@ SELECT EXISTS (
 SELECT *
 FROM `Item`
 WHERE `Item`.`list_id` = ?", listId);
+
+			// We don't store items positions,
+			// but we want to show incomplete items on the top
+			// and completed on the buttom
+			Order (items);
 			return items;
+		}
+
+		static void Order(List<Item> items)
+		{
+			items.Sort ((i1, i2) => {
+				if(i1.IsComplete ^ i2.IsComplete)
+					return i1.IsComplete.CompareTo(i2.IsComplete);
+				else
+					return i1.Text.CompareTo(i2.Text);
+			});
 		}
 
 		#endregion
