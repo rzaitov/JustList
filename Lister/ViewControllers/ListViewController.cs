@@ -241,6 +241,11 @@ namespace Lister
 		[Export ("textFieldDidEndEditing:")]
 		public void EditingEnded (UITextField textField)
 		{
+			// We could ended editing because press on "Edit" button
+			// At this point app state is inconsistent
+			if (TableView.Editing)
+				return;
+
 			if (string.IsNullOrWhiteSpace (textField.Text))
 				return;
 
