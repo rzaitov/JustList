@@ -238,7 +238,9 @@ namespace SQLite
 		/// Used to list some code that we want the MonoTouch linker
 		/// to see, but that we never want to actually execute.
 		/// </summary>
+		#pragma warning disable 649
 		static bool _preserveDuringLinkMagic;
+		#pragma warning restore 649
 
 		/// <summary>
 		/// Sets a busy handler to sleep the specified amount of time when a table is locked.

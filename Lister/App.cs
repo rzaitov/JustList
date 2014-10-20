@@ -10,8 +10,6 @@ namespace JustList
 
 		public static bool RunBefore {
 			get {
-				return false;
-
 				NSUserDefaults defaults = NSUserDefaults.StandardUserDefaults;
 				var runBefore = defaults.BoolForKey (RunBeforeKey);
 				return runBefore;

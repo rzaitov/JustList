@@ -161,14 +161,6 @@ namespace JustList
 			}
 		}
 
-		public void OnNewListInfo (List listInfo)
-		{
-			InsertListInfo(listInfo, index => {
-				NSIndexPath indexPathForInsertedRow = NSIndexPath.FromRowSection(index, 0);
-				TableView.InsertRows(new NSIndexPath[] {indexPathForInsertedRow }, UITableViewRowAnimation.Automatic);
-			});
-		}
-
 		#endregion
 
 		#region Convenience
@@ -179,27 +171,6 @@ namespace JustList
 //				NSIndexPath indexPathForRemoval = NSIndexPath.FromRowSection(index, 0);
 //				TableView.DeleteRows(new NSIndexPath[] { indexPathForRemoval }, UITableViewRowAnimation.Automatic);
 //			});
-		}
-
-		#endregion
-
-		#region List Management
-
-		void InsertListInfo(List listInfo, Action<int> completionHandler)
-		{
-			throw new NotImplementedException ();
-
-			ComparisionComparer<List> comparer = new ComparisionComparer<List>((left, right) => {
-				return left.Name.CompareTo(right.Name);
-			});
-			// read more about return value http://msdn.microsoft.com/en-us/library/ftfdbfx6(v=vs.110).aspx
-//			int index = list.BinarySearch(listInfo, comparer);
-//			index = index >= 0 ? index : ~index;
-//
-//			list.Insert (index, listInfo);
-//
-//			if (completionHandler != null)
-//				completionHandler(index);
 		}
 
 		#endregion

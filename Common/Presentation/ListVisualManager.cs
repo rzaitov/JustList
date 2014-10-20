@@ -31,36 +31,6 @@ namespace Common
 			return index <= IndexOfFirstCompletedItem ();
 		}
 
-		/// Items will be inserted according to their completion state, maintaining their initial ordering.
-		/// e.g. if items are [complete(0), incomplete(1), incomplete(2), completed(3)], they will be inserted
-		/// into to sections of the items array. [incomplete(1), incomplete(2)] will be inserted at index 0 of the
-		/// list. [complete(0), completed(3)] will be inserted at the index of the list.
-		public NSIndexSet InsertItems(IEnumerable<Item> items)
-		{
-			throw new NotImplementedException ();
-			int initialCount = 0;
-			//			int initialCount = Count;
-
-			int incompleteItemsCount = 0;
-			int completedItemsCount = 0;
-
-			foreach (Item item in items) {
-				if (item.IsComplete) {
-					completedItemsCount++;
-					this.items.Add (item);
-				} else {
-					incompleteItemsCount++;
-					this.items.Insert (0, item);
-				}
-			}
-
-			NSMutableIndexSet insertedIndexes = new NSMutableIndexSet ();
-			insertedIndexes.AddIndexesInRange (new NSRange (0, incompleteItemsCount));
-			insertedIndexes.AddIndexesInRange (new NSRange (incompleteItemsCount + initialCount, completedItemsCount));
-
-			return insertedIndexes;
-		}
-
 		public void InsertItem(Item item, int index)
 		{
 			items.Insert (index, item);
