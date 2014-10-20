@@ -8,7 +8,7 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>JustList</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>Lister</AssemblyName>
+    <AssemblyName>JustList</AssemblyName>
     <UseMSBuildEngine>True</UseMSBuildEngine>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
