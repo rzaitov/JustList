@@ -3,9 +3,7 @@
 using UIKit;
 using Foundation;
 
-using ListerKit;
-
-namespace Lister
+namespace JustList
 {
 	[Register("ListItemCell")]
 	public class ListItemCell : UITableViewCell

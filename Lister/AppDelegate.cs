@@ -6,11 +6,10 @@ using Foundation;
 using UIKit;
 
 using Common;
-using ListerKit;
 using SQLite;
 using System.IO;
 
-namespace Lister
+namespace JustList
 {
 	[Register ("AppDelegate")]
 	public partial class AppDelegate : UIApplicationDelegate, IUISplitViewControllerDelegate

@@ -4,9 +4,8 @@ using UIKit;
 using Foundation;
 
 using Common;
-using ListerKit;
 
-namespace Lister
+namespace JustList
 {
 	[Register("NewDocumentController")]
 	public class NewDocumentController : UIViewController, IUITextFieldDelegate

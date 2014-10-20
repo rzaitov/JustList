@@ -7,7 +7,7 @@ using Foundation;
 using Common;
 using CoreGraphics;
 
-namespace Lister
+namespace JustList
 {
 	[Register("ListColorCell")]
 	public class ListColorCell : UITableViewCell

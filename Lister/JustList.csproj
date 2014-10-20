@@ -6,7 +6,7 @@
     <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <ProjectGuid>{33AFF0ED-10A5-4BD7-A564-793113A11E85}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Lister</RootNamespace>
+    <RootNamespace>JustList</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>Lister</AssemblyName>
     <UseMSBuildEngine>True</UseMSBuildEngine>

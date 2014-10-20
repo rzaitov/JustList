@@ -2,7 +2,7 @@
 
 using Foundation;
 
-namespace Lister
+namespace JustList
 {
 	public static class App
 	{

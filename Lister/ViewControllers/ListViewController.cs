@@ -4,13 +4,12 @@ using UIKit;
 using Foundation;
 
 using Common;
-using ListerKit;
 using NotificationCenter;
 using System.Drawing;
 using CoreGraphics;
 using System.Collections.Generic;
 
-namespace Lister
+namespace JustList
 {
 	[Register("ListViewController")]
 	public class ListViewController : UITableViewController, IUITextFieldDelegate

@@ -7,10 +7,9 @@ using UIKit;
 using Foundation;
 
 using Common;
-using ListerKit;
 using System.Linq;
 
-namespace Lister
+namespace JustList
 {
 	[Register("DocumentsViewController")]
 	public class DocumentsViewController : UITableViewController

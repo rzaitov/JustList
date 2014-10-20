@@ -6,7 +6,7 @@ using ObjCRuntime;
 
 using Common;
 
-namespace ListerKit
+namespace JustList
 {
 	[Register("CheckBox")]
 	public class CheckBox : UIControl
