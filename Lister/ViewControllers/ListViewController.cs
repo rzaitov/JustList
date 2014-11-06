@@ -189,6 +189,7 @@ namespace JustList
 			Item item = items[indexPath.Row - 1];
 			manager.RemoveItems (new Item[]{ item });
 
+			listService.DeleteItem (item.Id);
 			TableView.DeleteRows (new NSIndexPath[]{ indexPath }, UITableViewRowAnimation.Automatic);
 		}
 
