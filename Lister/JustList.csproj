@@ -154,6 +154,14 @@
     <ImageAsset Include="Resources\Images.xcassets\LaunchImages.launchimage\splash_iphone6%402x.png" />
     <ImageAsset Include="Resources\Images.xcassets\LaunchImages.launchimage\splash_iphone4%402x.png" />
     <ImageAsset Include="Resources\Images.xcassets\LaunchImages.launchimage\splash_iphone5%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\AppIcon87x87%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\AppIcons.appiconset\AppIcon180x180%402x.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImages.launchimage\splash768x1024.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImages.launchimage\splash1536x2048.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImages.launchimage\splash1024x768.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImages.launchimage\splash2048x1536.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImages.launchimage\splash2208x1242.png" />
+    <ImageAsset Include="Resources\Images.xcassets\LaunchImages.launchimage\splash1242x2208.png" />
   </ItemGroup>
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />
