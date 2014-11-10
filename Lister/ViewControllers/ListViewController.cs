@@ -60,7 +60,7 @@ namespace JustList
 		{
 			listService = ServiceLocator.ListService;
 
-			string title = "Delete List";
+			string title = LocalizationKeys.DeleteList.GetLocalization ();
 			UIBarButtonItem deleteList = new UIBarButtonItem (title, UIBarButtonItemStyle.Plain, DeleteList);
 
 			UIBarButtonItem flexibleSpace = new UIBarButtonItem (UIBarButtonSystemItem.FixedSpace);
