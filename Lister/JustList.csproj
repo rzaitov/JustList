@@ -125,9 +125,12 @@
   <ItemGroup>
     <Folder Include="ViewControllers\" />
     <Folder Include="Views\" />
+    <Folder Include="Resources\Base.lproj\" />
+    <Folder Include="Resources\ru.lproj\" />
+    <Folder Include="Resources\en.lproj\" />
   </ItemGroup>
   <ItemGroup>
-    <InterfaceDefinition Include="Main.storyboard" />
+    <InterfaceDefinition Include="Resources\Base.lproj\Main.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
@@ -166,5 +169,9 @@
   <ItemGroup>
     <ITunesArtwork Include="iTunesArtwork" />
     <ITunesArtwork Include="iTunesArtwork%402x" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\en.lproj\Main.strings" />
+    <BundleResource Include="Resources\ru.lproj\Main.strings" />
   </ItemGroup>
 </Project>
