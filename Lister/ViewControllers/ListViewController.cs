@@ -159,7 +159,7 @@ namespace JustList
 
 			if (row == 0) {
 				// Configure an "Add Item" list item cell.
-				itemCell.TextField.Placeholder = "Add Item";
+				itemCell.TextField.Placeholder = LocalizationKeys.AddItem.GetLocalization ();
 				itemCell.CheckBox.Hidden = true;
 			} else {
 				Item item = items[row - 1];

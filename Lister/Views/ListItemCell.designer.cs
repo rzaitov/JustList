@@ -9,7 +9,7 @@ using Foundation;
 using UIKit;
 using System.CodeDom.Compiler;
 
-namespace Lister
+namespace JustList
 {
 	[Register ("ListItemCell")]
 	partial class ListItemCell

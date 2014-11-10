@@ -120,6 +120,7 @@
     <Compile Include="Views\CheckBox.cs" />
     <Compile Include="Views\CheckBoxLayer.cs" />
     <Compile Include="App.cs" />
+    <Compile Include="LocalizationExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
@@ -173,5 +174,7 @@
   <ItemGroup>
     <BundleResource Include="Resources\en.lproj\Main.strings" />
     <BundleResource Include="Resources\ru.lproj\Main.strings" />
+    <BundleResource Include="Resources\en.lproj\Localizable.strings" />
+    <BundleResource Include="Resources\ru.lproj\Localizable.strings" />
   </ItemGroup>
 </Project>

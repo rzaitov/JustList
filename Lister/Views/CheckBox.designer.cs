@@ -9,7 +9,7 @@ using Foundation;
 using UIKit;
 using System.CodeDom.Compiler;
 
-namespace ListerKit
+namespace JustList
 {
 	[Register ("CheckBox")]
 	partial class CheckBox
